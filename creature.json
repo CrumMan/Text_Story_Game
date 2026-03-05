@@ -1,0 +1,90 @@
+{
+    "creatures":{
+        "wolf":{
+            "name":"wolf",
+            "hp":11,
+            "attack":{
+                "bite":{
+                "name":"bite",
+                "hitDice":4,
+                "numberOfHitDice":2,
+                "hitAdder": 2,
+                "toHitModifier": 4
+                }
+            },
+            "ac":11,
+            "initiaveMod":2
+
+            
+        },
+        "treant sapling":{
+            "name":"treant sapling",
+            "hp":45,
+            "attack":{
+                "multiAttack":{
+                    "name":"multiAttack",
+                    "1":{
+                        "name":"slam",
+                        "hitDice":8,
+                        "numberOfHitDice":1,
+                        "hitAdder": 4,
+                        "toHitModifier": 6
+                    },
+                    "2":{
+                        "name":"slam",
+                        "hitDice":8,
+                        "numberOfHitDice":1,
+                        "hitAdder": 4,
+                        "toHitModifier": 6
+                    }
+                }
+            },
+            "ac":14,
+            "initiaveMod":-1
+        },
+        "bear":{
+            "name":"bear",
+            "hp":42,
+            "attack":{
+                "multiAttack":{
+                    "name":"multiAttack",
+                    "1":{
+                        "name":"bite",
+                        "hitDice":8,
+                        "numberOfHitDice":1,
+                        "hitAdder": 4,
+                        "toHitModifier": 6
+                    },
+                    "2":{
+                        "name":"claw",
+                        "hitDice":4,
+                        "numberOfHitDice":1,
+                        "hitAdder": 4,
+                        "toHitModifier": 6
+                    }
+                }
+                 
+            },
+            "ac":11,
+            "initiaveMod":0
+        },
+        "bandit":{
+            "name":"bandit",
+            "hp":11,
+            "attack":{
+                "scimitar":{
+                    "name":"scimitar",
+                    "hitDice":6,
+                    "numberOfHitDice":1,
+                    "hitAdder": 3,
+                    "toHitModifier": 6
+                }
+
+                 
+            },
+            "ac":12,
+            "initiaveMod":1
+        }
+
+    }
+}
