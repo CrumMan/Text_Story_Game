@@ -4,23 +4,22 @@ namespace textSim
     public partial class Character
     {
         string _name { get; }
-        int _cha { get; }
-        int _str { get; }
-        int _con { get; }
-        int _int { get; }
-        int _wis { get; }
-        int _dex { get; }
-        private int _lowerstatDice = 12;
+        protected int _cha { get; }
+        protected int _str { get; }
+        protected int _con { get; }
+        protected int _int { get; }
+        protected int _wis { get; }
+        protected int _dex { get; }
 
-        string _class { get; }
+        protected string _class { get; }
         Attack _attack { get; }
 
-        public int _hitPoints { get; set; }
-        int _maxHitPoints { get; }
-        string _armor { get; }
-        int _armorClass { get; }
-        int? _maxFireballs { get; }
-        int? _fireballs { get; }
+        protected public int _hitPoints { get; set; }
+        protected int _maxHitPoints { get; }
+        protected string _armor { get; }
+        protected int _armorClass { get; }
+        protected int? _maxFireballs { get; }
+        protected int? _fireballs { get; }
 
         void Run()
         {
@@ -42,22 +41,22 @@ namespace textSim
 
                 Console.WriteLine("We will now roll for Charisma.");
                 Console.ReadKey();
-                _cha = rollRandMod(_lowerstatDice);
+                _cha = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Constitution.");
                 Console.ReadKey();
                 _con = rollRandMod(20);
 
                 Console.WriteLine("We will now roll for Intelligence.");
-                _int = rollRandMod(_lowerstatDice);
+                _int = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Wisdom.");
                 Console.ReadKey();
-                _wis = rollRandMod(_lowerstatDice);
+                _wis = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Dexterity.");
                 Console.ReadKey();
-                _dex = rollRandMod(_lowerstatDice);
+                _dex = rollRandMod(12);
 
                 Console.WriteLine("We will finally roll for Max HP.");
                 Console.ReadKey();
@@ -71,15 +70,15 @@ namespace textSim
             {
                 Console.WriteLine("We will first roll for Strength.");
                 Console.ReadKey();
-                _str = rollRandMod(_lowerstatDice);
+                _str = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Charisma.");
                 Console.ReadKey();
-                _cha = rollRandMod(_lowerstatDice);
+                _cha = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Constitution.");
                 Console.ReadKey();
-                _con = rollRandMod(_lowerstatDice);
+                _con = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Intelligence.");
                 _int = rollRandMod(20);
@@ -104,26 +103,26 @@ namespace textSim
             {
                 Console.WriteLine("We will first roll for Strength.");
                 Console.ReadKey();
-                _str = rollRandMod(_lowerstatDice);
+                _str = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Charisma.");
                 Console.ReadKey();
-                _cha = rollRandMod(_lowerstatDice);
+                _cha = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Constitution.");
                 Console.ReadKey();
                 _con = rollRandMod(20);
 
                 Console.WriteLine("We will now roll for Intelligence.");
-                _int = rollRandMod(_lowerstatDice);
+                _int = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Wisdom.");
                 Console.ReadKey();
-                _wis = rollRandMod(_lowerstatDice);
+                _wis = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Dexterity.");
                 Console.ReadKey();
-                _dex = rollRandMod(_lowerstatDice);
+                _dex = rollRandMod(12);
 
                 Console.WriteLine("We will finally roll for Max HP.");
                 Console.ReadKey();

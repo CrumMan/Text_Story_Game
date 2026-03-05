@@ -8,7 +8,7 @@ namespace textSim
         private int _hitDice { set; get; }
         private int _hitdiceNum { set; get; }
         private int _hitDiceMod { set; get; }
-        private int toHitModifier { set; get; }
+        private int _toHitModifier { set; get; }
         private Attack? One
         { set; get; }
         private Attack? Two { set; get; }
@@ -17,14 +17,17 @@ namespace textSim
             _name = attack.name;
             if (_name == "multiAttack")
             {
-                One = attack["1"];
-                Two = attack["2"];
+                //I chose to build here with a recursive function so that I can build multiple multi attacks. Be it, A creature does 1 attack it goes to the "else" if not, it loads just one of the multiAttacks that may be their. For example, if multi attack has 3 attacks it would load a multi attack attack 1 would be named multiattack than would load 1 and two. Than it would load the second attack all as one attack action.
+                if (attack["1"]) One = attack["1"];
+                if (attack["2"]) Two = attack["2"];
             }
             else
             {
-                _name = attack.name;
+                //The else is if the name is not multiAttack it builds the individulal attack in the lower statement.
                 _hitDice = attack.hitDice;
                 _hitDiceMod = attack.hitDice;
+                _hitdiceNum = attack.hitDiceNum;
+
             }
         }
         public void calculateDamage(bool user, Character character, Creature? creature1, Battle battle)
@@ -66,6 +69,7 @@ namespace textSim
                         character._hitPoints = character.hitpoints - hitRoll + _hitDiceMod;
                         if (character.hitpoints < 0) character.hitpoints = 0;
                         Console.WriteLine($"The {creature1._name} hit you with a {attack._name} for {hitRoll + _hitDiceMod} damage you now are at {character._hitpoints}/{character._maxHitPoints}HP.");
+                        battle.end(false);
                     }
                 }
             }
