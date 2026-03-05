@@ -6,7 +6,7 @@ namespace textSim
     {
         private string _name { set; get; }
         private int _hitDice { set; get; }
-        private int _hitdiceNum { set; get; }
+        private int _numberOfHitDice { set; get; }
         private int _hitDiceMod { set; get; }
         private int _toHitModifier { set; get; }
         private Attack? One
@@ -23,10 +23,10 @@ namespace textSim
             }
             else
             {
-                //The else is if the name is not multiAttack it builds the individulal attack in the lower statement.
+                //The else is if the name is not multiAttack it builds the individulal attack in the lower statement so that the function call can add the actual attack together.
                 _hitDice = attack.hitDice;
                 _hitDiceMod = attack.hitDice;
-                _hitdiceNum = attack.hitDiceNum;
+                _numberOfHitDice = attack.hitDiceNum;
 
             }
         }
@@ -34,6 +34,8 @@ namespace textSim
         {
             if (user)
             {
+                // checks who is attacking if user it will follow below, I made this so that one function can control the battle Damage.
+                //I chose to add the warrior avantage here to show that he has avantage here.
                 int n = rollRand(20) + toHitModifier;
                 int n2 = 0;
                 if (character._class == "warrior")
@@ -55,6 +57,7 @@ namespace textSim
             }
             else if (!user)
             {
+                //I made this so that The calculated multiattack runs first, it makes the check than it continues on to calculate damage from the sub attacks that have been loaded in with the multiattack attack.
                 if (_name = "multiAttack")
                 {
                     One.calculateDamage(user, character, creature1);
@@ -65,7 +68,7 @@ namespace textSim
                     int n = rollRand(20) + toHitModifier;
                     if (n >= character._armorClass)
                     {
-                        int hitRoll = rollRand(_hitDice, _hitdiceNum);
+                        int hitRoll = rollRand(_hitDice, _numberOfHitDice);
                         character._hitPoints = character.hitpoints - hitRoll + _hitDiceMod;
                         if (character.hitpoints < 0) character.hitpoints = 0;
                         Console.WriteLine($"The {creature1._name} hit you with a {attack._name} for {hitRoll + _hitDiceMod} damage you now are at {character._hitpoints}/{character._maxHitPoints}HP.");
