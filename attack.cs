@@ -1,91 +1,93 @@
-using System.Security.Authentication;
+using Microsoft.VisualBasic;
 
 namespace textSim
 {
-    class Attack(dynamic attack, bool? advantage)
+    public class Attack
     {
-        private string _name { set; get; }
-        private int _hitDice { set; get; }
-        private int _numberOfHitDice { set; get; }
-        private int _hitDiceMod { set; get; }
-        private int _toHitModifier { set; get; }
-        private Attack? One
-        { set; get; }
-        private Attack? Two { set; get; }
-        private Run()
-        {
-            _name = attack.name;
-            if (_name == "multiAttack")
-            {
-                //I chose to build here with a recursive function so that I can build multiple multi attacks. Be it, A creature does 1 attack it goes to the "else" if not, it loads just one of the multiAttacks that may be their. For example, if multi attack has 3 attacks it would load a multi attack attack 1 would be named multiattack than would load 1 and two. Than it would load the second attack all as one attack action.
-                if (attack["1"]) One = attack["1"];
-                if (attack["2"]) Two = attack["2"];
-            }
-            else
-            {
-                //The else is if the name is not multiAttack it builds the individulal attack in the lower statement so that the function call can add the actual attack together.
-                _hitDice = attack.hitDice;
-                _hitDiceMod = attack.hitDice;
-                _numberOfHitDice = attack.hitDiceNum;
+        protected string _name { get; init; }
+        private int _hitDice { get; init; }
+        private int _numberOfHitDice { get; init; }
+        private int _hitAdder { get; init; }
+        private int _toHitModifier { get; init; }
+        private List<Attack>? _multiAttack { get; init; }
 
-            }
+        public Attack(dynamic attack)
+        {
+            _name = attack._name;
+            _hitDice = attack._hitDice;
+            _numberOfHitDice = attack._numberOfHitDice;
+            _hitAdder = attack._hitAdder;
+            _toHitModifier = attack._toHitModifier;
         }
-        public void calculateDamage(bool user, Character character, Creature? creature1, Battle battle)
+        public Attack(string name, int hitDice, int numberOfHitDice, int hitAdder, int toHitModifier)
         {
-            if (user)
-            {
-                // checks who is attacking if user it will follow below, I made this so that one function can control the battle Damage.
-                //I chose to add the warrior avantage here to show that he has avantage here.
-                int n = rollRand(20) + toHitModifier;
-                int n2 = 0;
-                if (character._class == "warrior")
-                {
-                    n2 = rollRand(20) + toHitModifier;
-                }
-                if (creature1.ac <= n || n2 >= creature1.ac)
-                {
-                    int hitroll = rollRand(_hitdice);
-                    int damage = hitroll + _hitDiceMod;
-                    creature1._hp = creature1._hp - damage;
+            _name = name;
+            _hitDice = hitDice;
+            _numberOfHitDice = numberOfHitDice;
+            _hitAdder = hitAdder;
+            _toHitModifier = toHitModifier;
+        }
+        public Attack(string name, List<Attack> multiAttacks)
+        {
+            _name = name;
+            _multiAttack = multiAttacks;
+        }
 
-                    Console.WriteLine($"Your attack with the {_name} caused {damage} damage! It has {creature._hp} hp left");
-                    if (creature1._hp == 0)
+        public void getAttack(bool isUser, dynamic target)
+        {
+            if (isUser)
+            {
+                int attackRoll = rollRand(20, _toHitModifier);
+                if (attackRoll >= target._ac)
+                {
+                    int damage = rollRandDamage(_hitDice, _numberOfHitDice) + _hitAdder;
+                    target._hp -= damage;
+                    if (target._hp <= 0)
                     {
-                        battle.end(true);
+                        encounter.endCombat(true);
                     }
+                    System.Console.WriteLine($"You with your {_name} for {damage} Damage!");
                 }
             }
-            else if (!user)
+            if (!isUser)
             {
-                //I made this so that The calculated multiattack runs first, it makes the check than it continues on to calculate damage from the sub attacks that have been loaded in with the multiattack attack.
-                if (_name = "multiAttack")
+                if (_name == "multiAttack")
                 {
-                    One.calculateDamage(user, character, creature1);
-                    if (character._hitPoints > 0) Two.calculateDamage(user, character, creature1);
+                    foreach (var atk in _multiAttack)
+                    {
+                        atk.getAttack(false, target);
+                    }
                 }
                 else
                 {
-                    int n = rollRand(20) + toHitModifier;
-                    if (n >= character._armorClass)
+                    if (target._hitPoints == 0) { return; }
+                    int attackRoll = rollRand(20, _toHitModifier);
+                    if (attackRoll >= target._armorClass)
                     {
-                        int hitRoll = rollRand(_hitDice, _numberOfHitDice);
-                        character._hitPoints = character.hitpoints - hitRoll + _hitDiceMod;
-                        if (character.hitpoints < 0) character.hitpoints = 0;
-                        Console.WriteLine($"The {creature1._name} hit you with a {attack._name} for {hitRoll + _hitDiceMod} damage you now are at {character._hitpoints}/{character._maxHitPoints}HP.");
-                        battle.end(false);
+                        int damage = rollRandDamage(_hitDice, _numberOfHitDice) + _hitAdder;
+                        System.Console.WriteLine($"The Damage for the {_name} Hit! You take *{damage} damage!");
+                        target._hitPoints -= damage;
+                        if (target._hitPoints < 0) { target._hitPoints = 0; }
+                        System.Console.WriteLine($"You now have {target._hitPoints}/{target._maxHitPoints}!");
+                        Console.ReadKey();
                     }
                 }
             }
-
         }
-
-
-        private int rollRand(int dice, int? count)
+        private static Random _rand = new Random();
+        private int rollRandDamage(int dice, int? diceNum = 1)
         {
-            Random random = new Random();
-            int num = random.Next(1, dice + 1);
-            count--;
-            if (count != 0) num += rollRand(dice, count);
+            int num = 0;
+            while (diceNum != 0)
+            {
+                num += _rand.Next(1, dice + 1);
+                diceNum--;
+            }
+            return num;
+        }
+        private int rollRand(int dice, int modifier)
+        {
+            int num = _rand.Next(1, dice + 1) + modifier;
             return num;
         }
     }

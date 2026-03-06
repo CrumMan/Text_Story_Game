@@ -1,0 +1,9 @@
+{
+    "1":{
+        "_name": "Maul",
+        "_hitDice": 6,
+        "_numberOfHitDice":2,
+        "_hitAdder": 0,
+        "_toHitModifier": "str"
+    }
+}

@@ -13,4 +13,9 @@ I am writing this in C# due to my understanding of C# and knowing my capabilitie
 
 # Useful Websites
 
-- [W3 Schools](Link Here)
+- [W3 Schools: Switch](https://www.w3schools.com/cs/cs_switch.php) -[Microsoft learn: Try Parse](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-10.0)
+
+#Hours worked:
+3/2/26 -3 hours (built character and creature)
+3/5/26 -5 hours (built attack1 debugging json serelizer with gpt to have proper names)
+3/6/26 -4 hours worked(1 hour finising json serealizer variable names, built encounter)

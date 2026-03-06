@@ -2,7 +2,7 @@ namespace textSim
 {
     public partial class Character
     {
-        void Run()
+        public Character()
         {
             Console.WriteLine("Hello! what is your name?");
             _name = Console.ReadLine();
@@ -14,7 +14,7 @@ namespace textSim
                 Console.WriteLine("Im sorry, the classes available to play with are: \n Warrior, Ranger, Mage, Vagrant \n please choose one of those 4 classes by entering the class name.");
                 _class = Console.ReadLine().ToLower();
             }
-            if (_class = "warrior")
+            if (_class == "warrior")
             {
                 Console.WriteLine("We will first roll for Strength.");
                 Console.ReadKey();
@@ -22,46 +22,46 @@ namespace textSim
 
                 Console.WriteLine("We will now roll for Charisma.");
                 Console.ReadKey();
-                _cha = rollRandMod(_lowerstatDice);
+                _cha = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Constitution.");
                 Console.ReadKey();
                 _con = rollRandMod(20);
 
                 Console.WriteLine("We will now roll for Intelligence.");
-                _int = rollRandMod(_lowerstatDice);
+                Console.ReadKey();
+                _int = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Wisdom.");
                 Console.ReadKey();
-                _wis = rollRandMod(_lowerstatDice);
+                _wis = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Dexterity.");
                 Console.ReadKey();
-                _dex = rollRandMod(_lowerstatDice);
+                _dex = rollRandMod(12);
 
                 Console.WriteLine("We will finally roll for Max HP.");
                 Console.ReadKey();
                 _maxHitPoints = rollRand(16) + _con;
                 _hitPoints = _maxHitPoints;
                 Console.WriteLine($"You got a {_hitPoints} for your max hitpoints.");
-                getArmorAC(_class);
-
             }
-            else if (_class = "ranger")
+            else if (_class == "ranger")
             {
                 Console.WriteLine("We will first roll for Strength.");
                 Console.ReadKey();
-                _str = rollRandMod(_lowerstatDice);
+                _str = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Charisma.");
                 Console.ReadKey();
-                _cha = rollRandMod(_lowerstatDice);
+                _cha = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Constitution.");
                 Console.ReadKey();
-                _con = rollRandMod(_lowerstatDice);
+                _con = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Intelligence.");
+                Console.ReadKey();
                 _int = rollRandMod(20);
 
                 Console.WriteLine("We will now roll for Wisdom.");
@@ -77,33 +77,32 @@ namespace textSim
                 _maxHitPoints = rollRand(10) + _con;
                 _hitPoints = _maxHitPoints;
                 Console.WriteLine($"You got a {_hitPoints} for your max hitpoints.");
-                getArmorAC(_class);
-
             }
-            else if (_class = "mage")
+            else if (_class == "mage")
             {
                 Console.WriteLine("We will first roll for Strength.");
                 Console.ReadKey();
-                _str = rollRandMod(_lowerstatDice);
+                _str = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Charisma.");
                 Console.ReadKey();
-                _cha = rollRandMod(_lowerstatDice);
+                _cha = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Constitution.");
                 Console.ReadKey();
                 _con = rollRandMod(20);
 
                 Console.WriteLine("We will now roll for Intelligence.");
-                _int = rollRandMod(_lowerstatDice);
+                Console.ReadKey();
+                _int = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Wisdom.");
                 Console.ReadKey();
-                _wis = rollRandMod(_lowerstatDice);
+                _wis = rollRandMod(12);
 
                 Console.WriteLine("We will now roll for Dexterity.");
                 Console.ReadKey();
-                _dex = rollRandMod(_lowerstatDice);
+                _dex = rollRandMod(12);
 
                 Console.WriteLine("We will finally roll for Max HP.");
                 Console.ReadKey();
@@ -115,7 +114,7 @@ namespace textSim
                 _fireballs = maxFireballs;
 
             }
-            else if (_class = "vagrant")
+            else if (_class == "vagrant")
             {
                 Console.WriteLine("We will first roll for Strength.");
                 Console.ReadKey();
@@ -130,6 +129,7 @@ namespace textSim
                 _con = rollRandMod(20);
 
                 Console.WriteLine("We will now roll for Intelligence.");
+                Console.ReadKey();
                 _int = rollRandMod(20);
 
                 Console.WriteLine("We will now roll for Wisdom.");
@@ -145,9 +145,10 @@ namespace textSim
                 _maxHitPoints = rollRand(12) + _con;
                 _hitPoints = _maxHitPoints;
                 Console.WriteLine($"You got a {_hitPoints} for your max hitpoints.");
-                getArmorAC(_class);
 
             }
+            getArmorAC(_class);
+            _attack = _getAttack();
         }
         //rollRand will save the modifier to the character stats using the custom dice number as a max number.
         private int rollRandMod(int dice)
@@ -163,12 +164,60 @@ namespace textSim
             Console.ReadKey();
             return mod;
         }
-        private int rollRand(int dice)
+
+        //this installs the attack trait for the character. I chose to build a dynamic result that can be loaded into and returned into an attack class. I chose to use dynamic cause it will dynamically build the weapon for the user.
+        private Attack getAttack()
         {
-            Random random = new Random();
-            int num = random.Next(1, dice + 1);
-            return num;
+            var json = File.ReadAllText(@"weapon.json");
+            var result = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
+
+
+            RecurseDeserialize(result);
+            Console.WriteLine("Which Attack would you like to attack with?");
+            foreach (var weapon in result)
+            {
+                System.Console.WriteLine($"{weapon.Key}. {weapon.Value._name} \n Damage: {weapon.Value._numberOfHitDice}D{weapon.Value._hitDice}+{weapon.Value._hitAdder}\nTo Hit Modifier: +{weapon.Value._toHitModifier}");
+            }
+
+            string choice = Console.ReadLine();
+            while (!result.ContainsKey(choice))
+            {
+                Console.WriteLine($"Please choose a valid weapon.");
+                choice = Console.ReadLine();
+            }
+            chosenWeapon = result[choice];
+            var stat = chosenWeapon._toHitModifier;
+            switch (stat)
+            {
+                case "str":
+                    modifier = _str;
+                    break;
+                case "cha":
+                    modifier = _cha;
+                    break;
+                case "con":
+                    modifier = _con;
+                    break;
+                case "dex":
+                    modifier = _dex;
+                    break;
+                case "wis":
+                    modifier = _wis;
+                    break;
+                case "int":
+                    modifier = _int;
+                    break;
+            }
+            return new Attack
+            (
+                chosenWeapon._name,
+                chosenWeapon._hitDice,
+                chosenWeapon._numberOfHitDice,
+                chosenWeapon._hitAdder,
+                modifier
+            );
         }
+
         private void getArmorAC(string charClass)
         {
             if (charClass == "warrior")

@@ -5,11 +5,11 @@
             "hp":11,
             "attack":{
                 "bite":{
-                "name":"bite",
-                "hitDice":4,
-                "numberOfHitDice":2,
-                "hitAdder": 2,
-                "toHitModifier": 4
+                "_name":"bite",
+                "_hitDice":4,
+                "_numberOfHitDice":2,
+                "_hitAdder": 2,
+                "_toHitModifier": 4
                 }
             },
             "ac":11,
@@ -22,21 +22,23 @@
             "hp":45,
             "attack":{
                 "multiAttack":{
-                    "name":"multiAttack",
-                    "1":{
-                        "name":"slam",
-                        "hitDice":8,
-                        "numberOfHitDice":1,
-                        "hitAdder": 4,
-                        "toHitModifier": 6
+                    "_name":"_multiAttack",
+                    "_multiAttack":[
+                    {
+                        "_name":"slam",
+                        "_hitDice":8,
+                        "_numberOfHitDice":1,
+                        "_hitAdder": 4,
+                        "_toHitModifier": 6
                     },
-                    "2":{
-                        "name":"slam",
-                        "hitDice":8,
-                        "numberOfHitDice":1,
-                        "hitAdder": 4,
-                        "toHitModifier": 6
+                    {
+                        "_name":"slam",
+                        "_hitDice":8,
+                        "_numberOfHitDice":1,
+                        "_hitAdder": 4,
+                        "_toHitModifier": 6
                     }
+                ]
                 }
             },
             "ac":14,
@@ -47,21 +49,23 @@
             "hp":42,
             "attack":{
                 "multiAttack":{
-                    "name":"multiAttack",
-                    "1":{
-                        "name":"bite",
-                        "hitDice":8,
-                        "numberOfHitDice":1,
-                        "hitAdder": 4,
-                        "toHitModifier": 6
+                    "_name":"multiAttack",
+                    "_multiAttack":[
+                    {
+                        "_name":"bite",
+                        "_hitDice":8,
+                        "_numberOfHitDice":1,
+                        "_hitAdder": 4,
+                        "_toHitModifier": 6
                     },
-                    "2":{
-                        "name":"claw",
-                        "hitDice":4,
-                        "numberOfHitDice":1,
-                        "hitAdder": 4,
-                        "toHitModifier": 6
+                    {
+                        "_name":"claw",
+                        "_hitDice":4,
+                        "_numberOfHitDice":1,
+                        "_hitAdder": 4,
+                        "_toHitModifier": 6
                     }
+                ]
                 }
                  
             },
@@ -73,11 +77,11 @@
             "hp":11,
             "attack":{
                 "scimitar":{
-                    "name":"scimitar",
-                    "hitDice":6,
-                    "numberOfHitDice":1,
-                    "hitAdder": 3,
-                    "toHitModifier": 6
+                    "_name":"scimitar",
+                    "_hitDice":6,
+                    "_numberOfHitDice":1,
+                    "_hitAdder": 3,
+                    "_toHitModifier": 6
                 }
 
                  
