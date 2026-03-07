@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.Reflection.PortableExecutable;
+using System.Timers;
 
 namespace textSim
 {
@@ -11,6 +13,76 @@ namespace textSim
         {
             _character = character;
             _creature = creature;
+        }
+
+        public entireEncounter()
+        {
+            bool seen = skillCheck("wisdom", _character._wis);
+            if (seen)
+            {
+                int choice = 0;
+                Console.WriteLine($"A {_creature._name} is seen what do you do?\n 1.Attack First\n2.Sneak Past(Dexterity Check)\n3.Hide (You must wait till you as the user decide is \"long enough\")");
+                while (choice < 1 || choice > 3)
+                    System.Console.WriteLine("Please do one of the provided decisions.");
+                {
+                    int.TryParse(Console.ReadLine(), out choice);
+                    if (choice == 1)
+                    {
+                        turnCycle(true);
+                    }
+                    else if (choice == 2)
+                    {
+                        bool escape = skillCheck("dexterity", character._dex);
+                        if (escape)
+                        {
+                            System.Console.WriteLine("You Escaped.");
+                            return;
+                        }
+                        else
+                        {
+                            Combat();
+                        }
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("You Choose to Hide! Do not hit enter in the console until you think the beast has left, press any key to start the stopwatch.");
+                        Console.ReadKey();
+                        System.Console.WriteLine("You have found a hiding spot in the general area, dont leave until you think the {creature._name} has left.");
+                        Stopwatch timer = new Stopwatch();
+                        timer.Start();
+                        Console.ReadLine();
+                        timer.Stop();
+                        int waitedTime = timer.Elapsed.TotalSeconds;
+                        int creatureWaited = rollRand(20) + _creature._initiaveMod;
+                        if (waitedTime > creatureWaited)
+                        {
+                            System.Console.WriteLine($"When you waited for {waitedTime} you emerge from your hiding spot and the creature was no where to be seen.");
+                            return;
+                        }
+                        else
+                        {
+                            System.Console.WriteLine($"When you waited for {waitedTime} you emerge from your hiding spot the creature sees you!");
+                            console.ReadKey();
+                            Combat();
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+        private bool skillCheck(string modString, int mod)
+        {
+
+            int charRoll = rollRand(20) + mod;
+            if (_character._class == "ranger" && (modString == "dexterity" || mod == "wisdom"))
+            {
+                int r1 = rollRand(20) + mod;
+                if (r1 > charRoll) { charRoll = r1; }
+            }
+            int creatureRoll = rollRand(20) + _creature._initiaveMod;
+            if (creatureRoll >= charRoll) { return true; }
         }
 
         public void Combat()
