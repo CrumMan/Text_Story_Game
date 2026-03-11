@@ -13,11 +13,11 @@ namespace textSim
 
         public Attack(dynamic attack)
         {
-            _name = attack._name;
-            _hitDice = attack._hitDice;
-            _numberOfHitDice = attack._numberOfHitDice;
-            _hitAdder = attack._hitAdder;
-            _toHitModifier = attack._toHitModifier;
+            _name = (string)attack["_name"];
+            _hitDice = (int)attack["_hitDice"];
+            _numberOfHitDice = (int)attack["_numberOfHitDice"];
+            _hitAdder = (int)attack["_hitAdder"];
+            _toHitModifier = (int)attack["_toHitModifier"];
         }
         public Attack(string name, int hitDice, int numberOfHitDice, int hitAdder, int toHitModifier)
         {
@@ -44,9 +44,9 @@ namespace textSim
                     target._hp -= damage;
                     if (target._hp <= 0)
                     {
-                        encounter.endCombat(true);
+                        return;
                     }
-                    System.Console.WriteLine($"You with your {_name} for {damage} Damage!");
+                    System.Console.WriteLine($"You hit with your {_name} for {damage} Damage!");
                 }
             }
             if (!isUser)
@@ -68,7 +68,7 @@ namespace textSim
                         System.Console.WriteLine($"The Damage for the {_name} Hit! You take *{damage} damage!");
                         target._hitPoints -= damage;
                         if (target._hitPoints < 0) { target._hitPoints = 0; }
-                        System.Console.WriteLine($"You now have {target._hitPoints}/{target._maxHitPoints}!");
+                        System.Console.WriteLine($"You now have {target._hitPoints}/{target._maxHitPoints}HP!");
                         Console.ReadKey();
                     }
                 }

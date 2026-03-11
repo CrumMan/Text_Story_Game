@@ -1,15 +1,17 @@
+using Newtonsoft.Json;
 namespace textSim
 {
     public partial class Character
     {
         public Character()
         {
+            Console.Clear();
             Console.WriteLine("Hello! what is your name?");
             _name = Console.ReadLine();
             Console.Clear();
             Console.WriteLine($"What class would you like to be? \n The Warrior has initial advantages on attack rolls and damage is halved when they are hit, but low character rolls on all rolls when creating stats except strength and constitution. (D12 is rolled instead of a D20) \n The Ranger has high perception so they have avantage stats on Wisdom, Dexterity and Intelligence rolls but disadvantage on strength and constitution saving throws \n The Mage has low rolls for stats on all other rolls except for Intelligence but he has a fireball spell he can use two times a day that will win him hostile encounters.\n The Vagrant has no stat avantages or disavantages. He rolls a 20 sided dice for all of his character stats. Being a vagrant may incure hidden dialoge (be it good or bad is a mystery).");
             _class = Console.ReadLine().ToLower();
-            while (_class != "warrior" || _class != "ranger" || _class != "mage" || _class != "vagrant")
+            while (_class != "warrior" && _class != "ranger" && _class != "mage" && _class != "vagrant")
             {
                 Console.WriteLine("Im sorry, the classes available to play with are: \n Warrior, Ranger, Mage, Vagrant \n please choose one of those 4 classes by entering the class name.");
                 _class = Console.ReadLine().ToLower();
@@ -111,7 +113,7 @@ namespace textSim
                 Console.WriteLine($"You got a {_hitPoints} for your max hitpoints.");
                 getArmorAC(_class);
                 _maxFireballs = 2;
-                _fireballs = maxFireballs;
+                _fireballs = _maxFireballs;
 
             }
             else if (_class == "vagrant")
@@ -148,7 +150,10 @@ namespace textSim
 
             }
             getArmorAC(_class);
-            _attack = _getAttack();
+            _attack = getAttack();
+            System.Console.WriteLine("Take note next time you enter a key this will be deleted.");
+            Console.ReadKey();
+            Console.Clear();
         }
         //rollRand will save the modifier to the character stats using the custom dice number as a max number.
         private int rollRandMod(int dice)
@@ -170,9 +175,6 @@ namespace textSim
         {
             var json = File.ReadAllText(@"weapon.json");
             var result = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
-
-
-            RecurseDeserialize(result);
             Console.WriteLine("Which Attack would you like to attack with?");
             foreach (var weapon in result)
             {
@@ -210,11 +212,11 @@ namespace textSim
             }
             return new Attack
             (
-                chosenWeapon._name,
-                chosenWeapon._hitDice,
-                chosenWeapon._numberOfHitDice,
-                chosenWeapon._hitAdder,
-                modifier
+                (string)chosenWeapon._name,
+                (int)chosenWeapon._hitDice,
+                (int)chosenWeapon._numberOfHitDice,
+                (int)chosenWeapon._hitAdder,
+                (int)modifier
             );
         }
 
@@ -225,9 +227,9 @@ namespace textSim
 
                 Console.WriteLine($"What Armor would you like to wear? (It will add to a base of 10.) \nUnarmored +{_con} (normal clothing) \n Robes +0 \n Leather Armor +2");
                 _armor = Console.ReadLine().ToLower();
-                while (_armor != "unarmored" || _armor != "robes" || _armor != "leather armor")
+                while (_armor != "unarmored" && _armor != "robes" && _armor != "leather armor")
                 {
-                    Console.WriteLine("Im sorry, the armor available to play with are: \n Unarmored, Robes,  \n please choose one of those 4 classes by entering the class name.");
+                    Console.WriteLine("Im sorry, the armor available to play with are: \n Unarmored, Robes,  \n please choose one of those 3 armors by entering the armor type.");
                     _armor = Console.ReadLine().ToLower();
                 }
                 if (_armor == "unarmored") _armorClass = 10 + _con;
@@ -239,9 +241,9 @@ namespace textSim
             {
                 Console.WriteLine($"What Armor would you like to wear? (It will add to a base of 10.) \nUnarmored +{_dex} (normal clothing) \n Robes +0 \n Leather Armor +2");
                 _armor = Console.ReadLine().ToLower();
-                while (_armor != "unarmored" || _armor != "robes" || _armor != "leather armor")
+                while (_armor != "unarmored" && _armor != "robes" && _armor != "leather armor")
                 {
-                    Console.WriteLine("Im sorry, the armor available to play with are: \n Unarmored, Robes,  \n please choose one of those 4 classes by entering the class name.");
+                    Console.WriteLine("Im sorry, the armor available to play with are: \n Unarmored, Robes,  \n please choose one of those 3 armors by entering the armor type.");
                     _armor = Console.ReadLine().ToLower();
                 }
                 if (_armor == "unarmored") _armorClass = 10 + _dex;

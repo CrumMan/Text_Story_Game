@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using System.Reflection.PortableExecutable;
-using System.Timers;
 
 namespace textSim
 {
@@ -15,60 +13,65 @@ namespace textSim
             _creature = creature;
         }
 
-        public entireEncounter()
+        public void entireEncounter()
         {
             bool seen = skillCheck("wisdom", _character._wis);
             if (seen)
             {
                 int choice = 0;
-                Console.WriteLine($"A {_creature._name} is seen what do you do?\n 1.Attack First\n2.Sneak Past(Dexterity Check)\n3.Hide (You must wait till you as the user decide is \"long enough\")");
-                while (choice < 1 || choice > 3)
-                    System.Console.WriteLine("Please do one of the provided decisions.");
+                Console.WriteLine($"A {_creature._name} is seen what do you do?\n1.Attack First\n2.Sneak Past(Dexterity Check)\n3.Hide (You must wait till you as the user decide is \"long enough\")");
+                while (choice != 1 && choice != 2 && choice != 3)
                 {
-                    int.TryParse(Console.ReadLine(), out choice);
-                    if (choice == 1)
+                    System.Console.WriteLine("Please do one of the provided decisions.");
+                    string entered = Console.ReadLine();
+                    int.TryParse(entered, out choice);
+                }
+                if (choice == 1)
+                {
+                    turnCycle(true);
+                }
+                else if (choice == 2)
+                {
+                    bool escape = skillCheck("dexterity", _character._dex);
+                    if (escape)
                     {
-                        turnCycle(true);
-                    }
-                    else if (choice == 2)
-                    {
-                        bool escape = skillCheck("dexterity", character._dex);
-                        if (escape)
-                        {
-                            System.Console.WriteLine("You Escaped.");
-                            return;
-                        }
-                        else
-                        {
-                            Combat();
-                        }
+                        System.Console.WriteLine("You Escaped.");
+                        return;
                     }
                     else
                     {
-                        System.Console.WriteLine("You Choose to Hide! Do not hit enter in the console until you think the beast has left, press any key to start the stopwatch.");
+                        Combat();
+                    }
+                }
+                else if (choice == 3)
+                {
+                    System.Console.WriteLine("You Choose to Hide! Do not hit enter in the console until you think the beast has left, press any key to start the stopwatch.");
+                    Console.ReadKey();
+                    System.Console.WriteLine($"You have found a hiding spot in the general area, dont leave until you think the {_creature._name} has left.");
+                    Stopwatch timer = new Stopwatch();
+                    timer.Start();
+                    Console.ReadLine();
+                    timer.Stop();
+                    int waitedTime = (int)timer.Elapsed.TotalSeconds;
+                    int creatureWaited = rollRand(20) + _creature._initiaveMod;
+                    if (waitedTime > creatureWaited)
+                    {
+                        System.Console.WriteLine($"When you waited for {waitedTime} you emerge from your hiding spot and the creature was no where to be seen.");
+                        return;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine($"When you waited for {waitedTime} you emerge from your hiding spot the creature sees you!");
                         Console.ReadKey();
-                        System.Console.WriteLine("You have found a hiding spot in the general area, dont leave until you think the {creature._name} has left.");
-                        Stopwatch timer = new Stopwatch();
-                        timer.Start();
-                        Console.ReadLine();
-                        timer.Stop();
-                        int waitedTime = timer.Elapsed.TotalSeconds;
-                        int creatureWaited = rollRand(20) + _creature._initiaveMod;
-                        if (waitedTime > creatureWaited)
-                        {
-                            System.Console.WriteLine($"When you waited for {waitedTime} you emerge from your hiding spot and the creature was no where to be seen.");
-                            return;
-                        }
-                        else
-                        {
-                            System.Console.WriteLine($"When you waited for {waitedTime} you emerge from your hiding spot the creature sees you!");
-                            console.ReadKey();
-                            Combat();
-                        }
-
+                        Combat();
                     }
 
                 }
+            }
+            else
+            {
+                System.Console.WriteLine($"A {_creature._name} attacks!");
+                Combat();
             }
         }
 
@@ -76,13 +79,14 @@ namespace textSim
         {
 
             int charRoll = rollRand(20) + mod;
-            if (_character._class == "ranger" && (modString == "dexterity" || mod == "wisdom"))
+            if (_character._class == "ranger" && (modString == "dexterity" || modString == "wisdom"))
             {
                 int r1 = rollRand(20) + mod;
                 if (r1 > charRoll) { charRoll = r1; }
             }
             int creatureRoll = rollRand(20) + _creature._initiaveMod;
-            if (creatureRoll >= charRoll) { return true; }
+            if (creatureRoll >= charRoll) { return false; }
+            return true;
         }
 
         public void Combat()
@@ -134,7 +138,7 @@ namespace textSim
             if (_character._fireballs > 0)
             {
                 System.Console.WriteLine("3.Use a fireball");
-                while (choice < 1 || choice > 3)
+                while (choice != 1 && choice != 2 && choice != 3)
                 {
                     System.Console.WriteLine("Make a choice");
                     int.TryParse(Console.ReadLine(), out choice);
@@ -149,7 +153,7 @@ namespace textSim
             }
             else
             {
-                while (choice != 1 || choice != 2)
+                while (choice != 1 && choice != 2)
 
                 {
                     System.Console.WriteLine("Make a choice");
@@ -165,8 +169,9 @@ namespace textSim
                 int run = rollRand(20) + _character._dex;
                 int creatureRun = 15 + _creature._initiaveMod;
                 if (run > creatureRun)
-                    System.Console.WriteLine($"So you ran? said the old man, why?");
-                break;
+                    if (_character._class == "vagrant") System.Console.WriteLine("You ran away.");
+                    else System.Console.WriteLine($"So you ran? said the old man, why?");
+                return;
             }
         }
         private void attack(bool user, dynamic attacker, dynamic defender)
@@ -178,7 +183,7 @@ namespace textSim
         {
             if (!win)
             {
-                story.end(false);
+                return;
             }
             else
             {
@@ -186,9 +191,14 @@ namespace textSim
                 string description = Console.ReadLine();
                 if (description == "")
                 {
-                    System.Console.WriteLine($"You explain that you slayed the {_creature._name}!");
+                    System.Console.WriteLine($"You slayed the {_creature._name}!");
                 }
-                else { System.Console.WriteLine($"\nYou describe to the man \"{description}\""); }
+                else
+                {
+                    if (_character._class == "vagrant") System.Console.WriteLine($"Thinking you remember that \"{description}\"");
+                    System.Console.WriteLine($"\nYou describe to the man \"{description}\"");
+                }
+                return;
             }
         }
         private static Random _rand = new Random();

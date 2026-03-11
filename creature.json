@@ -1,5 +1,4 @@
 {
-    "creatures":{
         "wolf":{
             "name":"wolf",
             "hp":11,
@@ -88,7 +87,92 @@
             },
             "ac":12,
             "initiaveMod":1
+        },
+        "druid":{
+            "name":"Enraged Druid",
+            "hp":27,
+            "attack":{
+                "quarterstaff":{
+                    "_name":"Quarterstaff",
+                    "_hitDice":8,
+                    "_numberOfHitDice":1,
+                    "_hitAdder": 2,
+                    "_toHitModifier": 4
+                }
+
+                 
+            },
+            "ac":11,
+            "initiaveMod": 2147483
+        },
+        "treant":{
+            "name":"treant",
+            "hp":138,
+            "attack":{
+                "multiAttack":{
+                    "_name":"_multiAttack",
+                    "_multiAttack":[
+                    {
+                        "_name":"slam",
+                        "_hitDice":6,
+                        "_numberOfHitDice":3,
+                        "_hitAdder": 6,
+                        "_toHitModifier": 10
+                    },
+                    {
+                        "_name":"slam",
+                        "_hitDice":6,
+                        "_numberOfHitDice":3,
+                        "_hitAdder": 6,
+                        "_toHitModifier": 10
+                    }
+                ]
+                }
+            },
+            "ac":16,
+            "initiaveMod":78
+        },
+        "owlBear":{
+            "name":"Owlbear",
+            "hp":59,
+            "attack":{
+                "multiAttack":{
+                    "_name":"_multiAttack",
+                    "_multiAttack":[
+                    {
+                        "_name":"beak",
+                        "_hitDice":10,
+                        "_numberOfHitDice":1,
+                        "_hitAdder": 5,
+                        "_toHitModifier": 7
+                    },
+                    {
+                        "_name":"claw",
+                        "_hitDice":8,
+                        "_numberOfHitDice":2,
+                        "_hitAdder": 5,
+                        "_toHitModifier": 7
+                    }
+                ]
+                }
+            },
+            "ac":13,
+            "initiaveMod":1
+        },
+        "old man":{
+            "name":"Old Man",
+            "hp":2147483647,
+            "attack":{
+                "fireball":{
+                    "_name":"Fireball",
+                    "_hitDice":20,
+                    "_numberOfHitDice":1,
+                    "_hitAdder": 7,
+                    "_toHitModifier": 2147483
+                }   
+            },
+            "ac":11,
+            "initiaveMod": 2147483
         }
 
-    }
 }

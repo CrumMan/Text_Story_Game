@@ -1,0 +1,19 @@
+0|the world around you fades to black, the old hands pick you up as you:|wake up|20|
+1|You Find yourself in the bed of an old vagrant man's cottage. He asks, So young man... "How did you get here?" Do you:|Tell your story,Ask how you got here|2,3|
+2|Your memory brings you back to a fork in the road, There is a sign in the fork that says, "Go right only" Do you:|Go Right,Go Left|9,8|
+3|"I dont know how you got here when you showed up" says the old man. "Thats why I ask, How did you get here." Do you:|Tell your story, Refuse to tell your story|2,4|
+4|"Young one it is best for the both of us that you tell me how you got here" The old man says, "You see I am old... and have been in this forest for far too long, I want to leave."|Tell Story, Refuse to speak|2,5|
+5|The old man's eyes start to glow a fiery red. "Youre starting to anger me... Its not best if you anger me. Tell me your story or die."|Tell Story, Refuse to speak|2,6|
+6|"Thats it..." The old man says, "Last chance"|Tell your story, Refuse to speak|2,7|
+7|The night fades to black as you find yourself having survived something impossible. Than a power consumes you and when you awaken, You are the old man. You are the LORD OF THE FOREST NOW, your job and purpose is to kill all who are unwelcome. The druids pray to you and they do your will. All to appease the LORD OF THE FOREST|(END)|20|old man
+8|You still cant beleive you were attacked by a wolf! You continue on the path to find yourself at another fork. You think to yourself, "maybe I should have gone right" Do you:|Go Left, Go Right|10,11|wolf
+9|The road twists beautifully letting sunlight gleem on your brow. You soon find yorself on another fork in the road. Do you:|Go Right,Go Left|11,12|
+10|That was a sapling you think, The road begins to wind and become patchy, Like something has not been here for some time. The forest canopy begins to deepen and you find yourself at another fork. Do you:|Go Left,Go Right|12,11|treant sapling
+11|The road turns showing a beautiful cliff, as you walk around the cliff edge you find yourself at a fork. Do you:|Go Right,Go Left, Go Back and try to go down the cliff|13,12,14|
+12|You never knew Owlbears were even supposed to be in these woods you think as you go down the path. Shaking, you move through the path to find a cottage in a clearing built in the side of the hill in front of you.A chimney atop the hill bellows and emits smoke. Do you:|Knock on its door, Turn back|15,16|owlBear
+13|You cleave to your weapon as a defence mechinism as it was what saved your life. Shaking, you move through the path to find a cottage in a clearing built in the side of the hill in front of you.A chimney atop the hill bellows and emits smoke. Do you:|Knock on its door, Turn back|15,16|bandit
+14|A whistling is heard behind you as a second later, a sharp pain hits your back. Do you|Submit to the Pain, Resist the Pain|0,0|
+15|The door opens as an old man sits in a rocking chair smoking a pipe. He says, "Welcome friend, have some tea." As you enter you feel your body losing control of itself. You sit and you|Drink the Tea.|0|
+16|You find yourself shaking, You should have died, A creeping feeling chills up your spine. As you look at the animated body of the treant is now blocking your path. You look to the cottage its... Inviting, Do you:|Climb over the treant,try to go around the treant for a way out,Knock on the cottage door|17,18,15|treant
+17|You fail your Attempt to climb over. Do you:|Attempt to climb over, Attempt to go around, Turn back to the cottage|17,18,15|
+18|The roots seem to stretch on in a circle not letting you through, you find yourself walking the treeline till youre back in front of the treant's body. Do you:|Attempt to go around the Treant,Turn back and knock on the cottage's door,Attempt to climb over the Treant|18,15,17|
