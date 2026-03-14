@@ -2,7 +2,7 @@
 
 Example: This is for the first sprint for my cse310 class. This assignment is to showcase my ability to code a high end text story game using everything I learned
 
-[Software Demo Video](Insert Link Here)
+[Software Demo Video](https://www.youtube.com/watch?v=cELs6lYACek)
 
 # Development Environment
 
