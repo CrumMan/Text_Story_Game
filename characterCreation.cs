@@ -3,11 +3,12 @@ namespace textSim
 {
     public partial class Character
     {
+        //i seperated this from the character class cause this file's purpose is to let the character be created but to access variables directly as well.
         public Character()
         {
             Console.Clear();
-            Console.WriteLine("Hello! what is your name?");
-            _name = Console.ReadLine();
+
+            while (_name == null) { Console.WriteLine("Hello! what is your name?"); _name = Console.ReadLine(); }
             Console.Clear();
             Console.WriteLine($"What class would you like to be? \n The Warrior has initial advantages on attack rolls and damage is halved when they are hit, but low character rolls on all rolls when creating stats except strength and constitution. (D12 is rolled instead of a D20) \n The Ranger has high perception so they have avantage stats on Wisdom, Dexterity and Intelligence rolls but disadvantage on strength and constitution saving throws \n The Mage has low rolls for stats on all other rolls except for Intelligence but he has a fireball spell he can use two times a day that will win him hostile encounters.\n The Vagrant has no stat avantages or disavantages. He rolls a 20 sided dice for all of his character stats. Being a vagrant may incure hidden dialoge (be it good or bad is a mystery).");
             _class = Console.ReadLine().ToLower();
@@ -111,7 +112,6 @@ namespace textSim
                 _maxHitPoints = rollRand(6) + _con;
                 _hitPoints = _maxHitPoints;
                 Console.WriteLine($"You got a {_hitPoints} for your max hitpoints.");
-                getArmorAC(_class);
                 _maxFireballs = 2;
                 _fireballs = _maxFireballs;
 
@@ -209,6 +209,10 @@ namespace textSim
                 case "int":
                     modifier = _int;
                     break;
+                case long n:
+                    modifier = (int)n;
+                    break;
+
             }
             return new Attack
             (
@@ -253,6 +257,7 @@ namespace textSim
             }
             Console.WriteLine($"Your Armor Class(AC) is {_armorClass}");
             Console.ReadKey();
+            return;
         }
     }
 }

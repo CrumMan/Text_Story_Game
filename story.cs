@@ -3,6 +3,7 @@ namespace textSim
 {
     public class Story
     {
+        // a story has 3 things, A list of creatures a list of sections and the character. I chose to make creatures dynamic because they may have a multiattack attack that in itself is dynamic to be built.
         Dictionary<string, dynamic> _creatures;
         Character _character;
         Dictionary<int, Section> _sections;

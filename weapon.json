@@ -5,6 +5,27 @@
         "_numberOfHitDice":2,
         "_hitAdder": 0,
         "_toHitModifier": "str"
+    },
+    "2":{
+        "_name": "Wizard's Staff",
+        "_hitDice": 4,
+        "_numberOfHitDice":1,
+        "_hitAdder": 2,
+        "_toHitModifier": "int"
+    },
+    "4":{
+        "_name": "Dagger",
+        "_hitDice": 4,
+        "_numberOfHitDice":2,
+        "_hitAdder": 0,
+        "_toHitModifier": "dex"
+    },
+    "5":{
+        "_name": "Hand Axe",
+        "_hitDice": 6,
+        "_numberOfHitDice":2,
+        "_hitAdder": 1,
+        "_toHitModifier": 2
     }
     
 }

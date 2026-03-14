@@ -15,6 +15,7 @@ namespace textSim
 
         public void entireEncounter()
         {
+            //I chose to do a skill check with wisdom to give the user the ability to start a combat if they pass the skill check they will enter a minigame cause its fairly straightforward.
             bool seen = skillCheck("wisdom", _character._wis);
             if (seen)
             {
@@ -74,7 +75,7 @@ namespace textSim
                 Combat();
             }
         }
-
+        //skill check checks if a desired outcome happens.
         private bool skillCheck(string modString, int mod)
         {
 
@@ -85,10 +86,10 @@ namespace textSim
                 if (r1 > charRoll) { charRoll = r1; }
             }
             int creatureRoll = rollRand(20) + _creature._initiaveMod;
-            if (creatureRoll >= charRoll) { return false; }
+            if (creatureRoll > charRoll) { return false; }
             return true;
         }
-
+        //combat will randomly roll initiative to go first, the combat will commence randomly. I did this so there is still randomness.
         public void Combat()
         {
             int charInitiave;
@@ -111,6 +112,7 @@ namespace textSim
                 turnCycle(true);
             }
         }
+        //turn cycle I build for a while so we can keep an eye on two conditiions (or a return) that will continue combat otherwise.
         private void turnCycle(bool userFirst)
         {
             if (userFirst)

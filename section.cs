@@ -10,6 +10,8 @@ namespace textSim
         string _text { get; set; }
         Creature _creature;
         Character _character;
+
+        //a section holds an encounter if any. If there is one the encounter is played through. I chose than after for text to be displayed and for the user to select from a list of outcomes. Than after selection the outcome is given through the run function.
         public Section(int sectionNumber, string text, string[] outcomes, int[] outcomeSelections, Character character, Creature? creature = null)
         {
             _sectionNumber = sectionNumber;
@@ -18,7 +20,6 @@ namespace textSim
             _outcomeSelections = outcomeSelections;
             _character = character;
             if (creature != null) _creature = creature;
-            else _creature = creature;
         }
         public int Run()
         {
@@ -59,6 +60,7 @@ namespace textSim
                 System.Console.WriteLine("Please choose an outcome");
                 int.TryParse(Console.ReadLine(), out selection);
             }
+            //outcome is in index notation hence the -1
             return _outcomeSelections[selection - 1];
         }
     }

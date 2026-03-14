@@ -12,6 +12,7 @@ namespace textSim
             Console.WriteLine("\x1b[3J");
             while (selection != 0 || numb == false)
             {
+
                 Character character = new Character();
                 Story story = new Story(character);
                 story.Start();
