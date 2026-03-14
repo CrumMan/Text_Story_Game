@@ -10,6 +10,13 @@ I will use C# to run a Text game to the command prompt that utilizes a class for
 This software will use functions for when the creatures battle, create character, create/load text and pull an enemy to fight. Conditionals will be made to give the user the choices and also for result rolls in fights.
 
 I am writing this in C# due to my understanding of C# and knowing my capabilities of it.
+Nesessary installs:
+Dotnet, C#
+In your Command prompt:
+-Run Dotnet Build
+-To Run Project: DotNet Build
+Rules:
+-Have Fun Follow the prompts
 
 # Useful Websites
 
