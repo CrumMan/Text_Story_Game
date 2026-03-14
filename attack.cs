@@ -48,6 +48,7 @@ namespace textSim
                     }
                     System.Console.WriteLine($"You hit with your {_name} for {damage} Damage!");
                 }
+                else { System.Console.WriteLine($"You missed your attack."); }
             }
             if (!isUser)
             {
@@ -70,6 +71,10 @@ namespace textSim
                         if (target._hitPoints < 0) { target._hitPoints = 0; }
                         System.Console.WriteLine($"You now have {target._hitPoints}/{target._maxHitPoints}HP!");
                         Console.ReadKey();
+                    }
+                    else
+                    {
+                        System.Console.WriteLine($"The Creature missed their {_name} attack.");
                     }
                 }
             }

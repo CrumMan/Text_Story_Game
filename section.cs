@@ -49,7 +49,11 @@ namespace textSim
         {
             int count = 1;
             int selection = 0;
-            System.Console.WriteLine("Would you like to");
+            if (_outcomeSelections.Length > 1)
+            {
+                System.Console.WriteLine("Would you like to");
+            }
+            else { System.Console.WriteLine("You feel a power forcing you to... "); }
             foreach (string choice in _outcomes)
             {
                 Console.WriteLine($"{count}. {choice}");
