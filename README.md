@@ -29,3 +29,4 @@ Rules:
   3/9/26 -5 hours setting the cs proj file and debugging till semi- functionality (studied how to use Newtonsoft with json files)
   3/10/26 -2 hours testing bugs with story. Creating story .txt
   3/11/26 -3 hours building and finalizing project.
+  3/13/26 -4 hours Preparing for submission and finding more issues.
