@@ -1,10 +1,19 @@
 using Newtonsoft.Json;
-namespace textSim
+using Supabase.Gotrue;
+using Supabase.Postgrest.Attributes;
+using Supabase.Postgrest.Models;
+using Supabase.Postgrest;
+using textSim.database;
+using text_Sim;
+namespace text_Sim
 {
     public partial class Character
     {
         //i seperated this from the character class cause this file's purpose is to let the character be created but to access variables directly as well.
         public Character()
+        {
+        }
+        public async Task CharacterCreate()
         {
             Console.Clear();
 
@@ -150,11 +159,13 @@ namespace textSim
 
             }
             getArmorAC(_class);
-            _attack = getAttack();
+            _attack = await GetAttack();
             System.Console.WriteLine("Take note next time you enter a key this will be deleted.");
             Console.ReadKey();
             Console.Clear();
         }
+        attackMethods AttackMethods = new();
+        overall_Methods Overall_Methods = new();
         //rollRand will save the modifier to the character stats using the custom dice number as a max number.
         private int rollRandMod(int dice)
         {
@@ -171,24 +182,38 @@ namespace textSim
         }
 
         //this installs the attack trait for the character. I chose to build a dynamic result that can be loaded into and returned into an attack class. I chose to use dynamic cause it will dynamically build the weapon for the user.
-        private Attack getAttack()
+        private async Task<Attack> GetAttack()
         {
-            var json = File.ReadAllText(@"weapon.json");
-            var result = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(json);
-            Console.WriteLine("Which Attack would you like to attack with?");
-            foreach (var weapon in result)
+            var response = await SupabaseService.SupabaseClient
+               .From<Attack>()
+               .Where(x => x.CharacterAccessable == true)
+               .Get();
+            var attacks = response.Models;
+            do
             {
-                System.Console.WriteLine($"{weapon.Key}. {weapon.Value._name} \n Damage: {weapon.Value._numberOfHitDice}D{weapon.Value._hitDice}+{weapon.Value._hitAdder}\nTo Hit Modifier: +{weapon.Value._toHitModifier}");
-            }
+                attacks = response.Models;
+                if (!response.Models.Any())
+                {
+                    System.Console.WriteLine("Error cant find any character attacks");
+                    await AttackMethods.CreateAttack();
+                    response = await SupabaseService.SupabaseClient
+                        .From<Attack>()
+                        .Where(x => x.CharacterAccessable == true)
+                        .Get();
+                }
+            } while (!response.Models.Any());
 
-            string choice = Console.ReadLine();
-            while (!result.ContainsKey(choice))
+            foreach (var Attack in attacks)
             {
-                Console.WriteLine($"Please choose a valid weapon.");
-                choice = Console.ReadLine();
+                System.Console.WriteLine($"Name:{Attack.Name} | Stat Modifier: {Attack.CharacterString}");
             }
-            chosenWeapon = result[choice];
-            var stat = chosenWeapon._toHitModifier;
+            System.Console.WriteLine("Enter the an attack name youd like to have your character use.");
+            string name = Overall_Methods.solveNull();
+            Attack chosenWeapon = await AttackMethods.GetAttack(name);
+
+
+
+            var stat = chosenWeapon.CharacterString;
             switch (stat)
             {
                 case "str":
@@ -209,19 +234,12 @@ namespace textSim
                 case "int":
                     modifier = _int;
                     break;
-                case long n:
-                    modifier = (int)n;
-                    break;
 
             }
-            return new Attack
-            (
-                (string)chosenWeapon._name,
-                (int)chosenWeapon._hitDice,
-                (int)chosenWeapon._numberOfHitDice,
-                (int)chosenWeapon._hitAdder,
-                (int)modifier
-            );
+
+            Attack attack1 = chosenWeapon;
+            attack1.ToHitModifier = modifier;
+            return attack1;
         }
 
         private void getArmorAC(string charClass)

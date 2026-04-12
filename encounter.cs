@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace textSim
+namespace text_Sim
 {
     public class Encounter
     {
@@ -20,7 +20,7 @@ namespace textSim
             if (seen)
             {
                 int choice = 0;
-                Console.WriteLine($"A {_creature._name} is seen what do you do?\n1.Attack First\n2.Sneak Past(Dexterity Check)\n3.Hide (You must wait till you as the user decide is \"long enough\")");
+                Console.WriteLine($"A {_creature.Name} is seen what do you do?\n1.Attack First\n2.Sneak Past(Dexterity Check)\n3.Hide (You must wait till you as the user decide is \"long enough\")");
                 while (choice != 1 && choice != 2 && choice != 3)
                 {
                     System.Console.WriteLine("Please do one of the provided decisions.");
@@ -48,13 +48,13 @@ namespace textSim
                 {
                     System.Console.WriteLine("You Choose to Hide! Do not hit enter in the console until you think the beast has left, press any key to start the stopwatch.");
                     Console.ReadKey();
-                    System.Console.WriteLine($"You have found a hiding spot in the general area, dont leave until you think the {_creature._name} has left.");
+                    System.Console.WriteLine($"You have found a hiding spot in the general area, dont leave until you think the {_creature.Name} has left.");
                     Stopwatch timer = new Stopwatch();
                     timer.Start();
                     Console.ReadLine();
                     timer.Stop();
                     int waitedTime = (int)timer.Elapsed.TotalSeconds;
-                    int creatureWaited = rollRand(20) + _creature._initiaveMod;
+                    int creatureWaited = rollRand(20) + _creature.InitiaveMod;
                     if (waitedTime > creatureWaited)
                     {
                         System.Console.WriteLine($"When you waited for {waitedTime} you emerge from your hiding spot and the creature was no where to be seen.");
@@ -71,7 +71,7 @@ namespace textSim
             }
             else
             {
-                System.Console.WriteLine($"A {_creature._name} attacks!");
+                System.Console.WriteLine($"A {_creature.Name} attacks!");
                 Combat();
             }
         }
@@ -85,7 +85,7 @@ namespace textSim
                 int r1 = rollRand(20) + mod;
                 if (r1 > charRoll) { charRoll = r1; }
             }
-            int creatureRoll = rollRand(20) + _creature._initiaveMod;
+            int creatureRoll = rollRand(20) + _creature.InitiaveMod;
             if (creatureRoll > charRoll) { return false; }
             return true;
         }
@@ -97,13 +97,13 @@ namespace textSim
             do
             {
                 charInitiave = rollRand(20) + _character._dex;
-                creInitiative = rollRand(20) + _creature._initiaveMod;
+                creInitiative = rollRand(20) + _creature.InitiaveMod;
             }
             while (creInitiative == charInitiave);
 
             if (creInitiative > charInitiave)
             {
-                System.Console.WriteLine($"The {_creature._name} attacks first!");
+                System.Console.WriteLine($"The {_creature.Name} attacks first!");
                 turnCycle(false);
             }
             else
@@ -117,16 +117,16 @@ namespace textSim
         {
             if (userFirst)
             {
-                while (_character._hitPoints > 0 && _creature._hp > 0)
+                while (_character._hitPoints > 0 && _creature.Hp > 0)
                 {
                     userTurn();
-                    if (_creature._hp > 0) attack(false, _creature, _character);
+                    if (_creature.Hp > 0) attack(false, _creature, _character);
 
                 }
             }
             else
             {
-                while (_character._hitPoints > 0 && _creature._hp > 0)
+                while (_character._hitPoints > 0 && _creature.Hp > 0)
                 {
                     attack(false, _creature, _character);
                     if (_character._hitPoints > 0) userTurn();
@@ -147,8 +147,8 @@ namespace textSim
                     if (choice == 3)
                     {
                         _character._fireballs--;
-                        _creature._hp = 0;
-                        System.Console.WriteLine($"So you blew the {_creature._name} up? Thats actually impressive!");
+                        _creature.Hp = 0;
+                        System.Console.WriteLine($"So you blew the {_creature.Name} up? Thats actually impressive!");
                         return;
                     }
                 }
@@ -169,7 +169,7 @@ namespace textSim
             if (choice == 2)
             {
                 int run = rollRand(20) + _character._dex;
-                int creatureRun = 15 + _creature._initiaveMod;
+                int creatureRun = 15 + _creature.InitiaveMod;
                 if (run > creatureRun)
                     if (_character._class == "vagrant") System.Console.WriteLine("You ran away.");
                     else System.Console.WriteLine($"So you ran? said the old man, why?");
@@ -189,11 +189,11 @@ namespace textSim
             }
             else
             {
-                System.Console.WriteLine($"Describe how you kill the {_creature._name} or press enter for a general input!");
+                System.Console.WriteLine($"Describe how you kill the {_creature.Name} or press enter for a general input!");
                 string description = Console.ReadLine();
                 if (description == "")
                 {
-                    System.Console.WriteLine($"You slayed the {_creature._name}!");
+                    System.Console.WriteLine($"You slayed the {_creature.Name}!");
                 }
                 else
                 {

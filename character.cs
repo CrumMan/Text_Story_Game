@@ -1,5 +1,5 @@
 //I plan to create a class of character here that can create a character
-namespace textSim
+namespace text_Sim
 {
     public partial class Character
     {
